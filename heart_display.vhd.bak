@@ -1,0 +1,35 @@
+library IEEE;
+use  IEEE.STD_LOGIC_1164.all;
+use  IEEE.STD_LOGIC_ARITH.all;
+use  IEEE.STD_LOGIC_UNSIGNED.all;
+
+entity heart_display is 
+	port(
+		pixel_row, pixel_column : in std_logic_vector (10 downto 0);
+		Clk							: in std_logic;
+		Output						: out std_logic;
+		heart_enable				: out std_logic
+	);
+end entity heart_display;
+
+architecture behaviour of heart_display is 
+begin
+	process(pixel_row,pixel_column,Clk)
+	begin
+		if (pixel_row >= 0 and pixel_row < 16 and pixel_column >= 416 and pixel_column < 432) then
+			Output <= "000000";
+			heart_enable <= '1';
+		elsif (pixel_row >= 0 and pixel_row < 16 and pixel_column >= 432 and pixel_column < 448) then
+			Output <= "000000";
+			heart_enable <= '1';
+		elsif (pixel_row >= 0 and pixel_row < 16 and pixel_column >= 448 and pixel_column < 464) then
+			Output <= "000000";
+			heart_enable <= '1';
+		elsif (pixel_row >= 0 and pixel_row < 16 and pixel_column >= 464 and pixel_column < 480) then
+			Output <= "000000";
+			heart_enable <= '1';
+		else
+			heart_enable <= '0';
+		end if;
+	end process;
+end architecture behaviour;

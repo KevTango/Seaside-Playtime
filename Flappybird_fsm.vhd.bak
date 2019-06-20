@@ -1,0 +1,74 @@
+library IEEE;
+use  IEEE.STD_LOGIC_1164.all;
+use  IEEE.STD_LOGIC_ARITH.all;
+use  IEEE.STD_LOGIC_UNSIGNED.all;
+
+
+entity flappybird_fsm is
+	port (
+		Reset, Main_menu_flag, Training_mode_flag, Game_over_flag, Clk : in std_logic;
+		Output : out std_logic_Vector(3 downto 0)
+	);
+end entity flappybird_fsm;
+
+architecture behaviour of flappybird_fsm is 
+type state_type is (Start, main_mode, training_mode, game_over);
+signal state, next_state : state_type;
+begin
+
+next_State_choice:process(Clk)
+begin
+	if Clk'event and Clk = '1' then
+		state <= next_state;
+	else
+		state <= state;
+	end if;
+end process next_state_choice;
+
+state_change:process(Reset, Main_menu_flag, Training_mode_flag, Game_over_flag)
+begin
+	case next_state is
+		when Start =>
+		if (Reset = '0') then
+			if (Main_menu_flag = '1' and Training_mode_flag = '0') then
+				next_state <= main_mode;
+			elsif (Training_mode_flag = '1' and Main_menu_flag = '0') then
+				next_state <= training_mode;			
+			else
+				next_State <= start;	
+			end if;
+		else
+			next_state <= start;
+		end if;
+		when main_mode =>
+			if (game_over_flag = '1') then
+				next_state <= game_over;
+			else
+				next_state <= main_mode;
+			end if;
+		when training_mode =>
+			if (game_over_flag = '1') then
+				next_state <= game_over;
+			else
+				next_state <= training_mode;
+			end if;
+		when game_over =>
+			next_state <= start;
+	end case;
+end process state_change;
+
+state_output: process(State)
+begin
+	case state is
+		when start =>
+			output <= "1000";
+		when main_mode =>
+			output <= "0100";
+		when training_mode =>
+			output <= "0010";
+		when game_over =>
+			output <= "0001";
+	end case;
+end process state_output;
+end architecture behaviour;
+		

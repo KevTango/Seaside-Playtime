@@ -1,0 +1,87 @@
+-- This code controls the ball's movement
+LIBRARY IEEE;
+USE IEEE.STD_LOGIC_1164.all;
+USE IEEE.STD_LOGIC_ARITH.all;
+USE IEEE.STD_LOGIC_SIGNED.all;
+use ieee.numeric_std.all;
+
+ENTITY ball IS
+Generic(ADDR_WIDTH: integer := 12; DATA_WIDTH: integer := 1);
+
+   PORT(SIGNAL left_click, Clock 								: IN std_logic;
+        SIGNAL Red,Green,Blue 									: OUT std_logic;
+        SIGNAL Horiz_sync,Vert_sync								: OUT std_logic);		
+END ball;
+
+architecture behavior of ball is
+
+			-- Video Display Signals   
+SIGNAL Red_Data, Green_Data, Blue_Data, vert_sync_int		: std_logic; 
+SIGNAL Ball_Y_motion 												: std_logic_vector(10 DOWNTO 0);
+SIGNAL Ball_Y_pos, Ball_X_pos										: std_logic_vector(10 DOWNTO 0);
+SIGNAL pixel_row, pixel_column									: std_logic_vector(10 DOWNTO 0); 
+-- Ball
+SIGNAL Ball_on															: std_logic;
+SIGNAL Size 															: std_logic_vector(10 DOWNTO 0); 
+-- Mouse
+SIGNAL mouse_flag 													: std_logic := '0';
+
+BEGIN           
+
+-- Ball 
+Size <= CONV_STD_LOGIC_VECTOR(8,11);
+Ball_X_pos <= CONV_STD_LOGIC_VECTOR(320,11);
+
+-- Need internal copy of vert_sync to read
+vert_sync <= vert_sync_int;
+
+-- Output Ball Colours
+Red_Data <= Ball_on;
+Green_Data <= Ball_on;
+Blue_Data <= NOT ball_on;
+
+Ball_RGB_Display: Process (Ball_X_pos, Ball_Y_pos, pixel_column, pixel_row, Size)
+BEGIN
+	-- Set Ball_on ='1' to display ball
+	IF (Ball_X_pos <= pixel_column + Size) AND
+ 		-- compare positive numbers only
+		(Ball_X_pos + Size >= pixel_column) AND
+		(Ball_Y_pos <= pixel_row + Size + 2) AND
+		(Ball_Y_pos + Size - 2 >= pixel_row) THEN
+			Ball_on <= '1';
+ 	ELSE
+ 		Ball_on <= '0';
+	END IF;
+END process Ball_RGB_Display;
+
+Move_Ball: process (vert_sync_int, left_click)
+BEGIN
+	-- Move ball once every vertical sync
+	IF(vert_sync_int'event and vert_sync_int = '1') THEN
+		-- If mouse is off
+		IF(left_click = '0' AND mouse_flag = '1') THEN
+			-- Ball going down
+			Ball_Y_motion <= CONV_STD_LOGIC_VECTOR(2,11);
+			-- Lower boundary condition
+			IF (Ball_Y_pos) >= CONV_STD_LOGIC_VECTOR(400,11) - Size THEN
+				Ball_Y_motion <= CONV_STD_LOGIC_VECTOR(0,11);
+			END IF;
+			
+		-- If mouse is on	
+		ELSIF(left_click = '1') THEN
+			-- Ball going up
+			mouse_flag <= '1';
+			Ball_Y_motion <= - CONV_STD_LOGIC_VECTOR(5,11);
+			-- Upper boundary condition
+			IF Ball_Y_pos <= CONV_STD_LOGIC_VECTOR(50,11) + Size THEN 
+				Ball_Y_motion <= CONV_STD_LOGIC_VECTOR(2,11);
+			END IF;
+		END IF;
+		
+		--Compute next ball Y position
+		Ball_Y_pos <= Ball_Y_pos + Ball_Y_motion;
+	END IF;
+END process Move_Ball;
+
+END behavior;
+

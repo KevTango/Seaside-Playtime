@@ -1,0 +1,22 @@
+library IEEE;
+use  IEEE.STD_LOGIC_1164.all;
+use  IEEE.STD_LOGIC_ARITH.all;
+use  IEEE.STD_LOGIC_UNSIGNED.all;
+
+
+entity char_display is
+	port(
+		pixel_row, pixel_column : in std_logic_vector(10 downto 0);
+		Clk      					: in std_logic;
+		Output 						: out std_logic_vector(5 downto 0)
+	);
+end entity char_display;
+
+architecture behaviour of char_display is
+begin
+process(Clk)
+	begin
+		if(pixel_row > 0 and pixel_row <= 8 and pixel_column > 0 and pixel_column <= 8) then
+			Output <= "111111";
+		end if;
+end process behaviour;

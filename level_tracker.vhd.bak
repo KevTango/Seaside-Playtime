@@ -1,0 +1,15 @@
+-- Level Tracker (Will increment speed every 5th pipe)
+
+Level_Tracker: Process (level_count, level_flag)
+BEGIN
+	pipe_increase_speed <= '0';
+	level_increment <= '0';
+	IF(level_count'event AND level_count = '1') THEN
+		level_flag <= level_flag + 1;
+		IF(level_flag = "100") THEN
+			level_flag <= "000";
+			pipe_increase_speed <= '1';
+			level_increment <= '1';
+		END IF;
+	END IF;
+END process Level_Tracker;

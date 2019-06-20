@@ -1,0 +1,23 @@
+library IEEE;
+use  IEEE.STD_LOGIC_1164.all;
+use  IEEE.STD_LOGIC_ARITH.all;
+use  IEEE.STD_LOGIC_UNSIGNED.all;
+
+entity collision_detector is
+	port(
+		ball_on, pipe_enable : in std_logic;
+		output 					: out std_logic
+	);
+end entity collision_detector;
+
+architecture behaviour of collision_detector is
+begin
+	process(ball_on, pipe_enable) 
+	begin
+		if (ball_on = '1' and pipe_enable = '1') then
+			output <= '1';
+		else
+			output <= '0';
+		end if;
+	end process;
+end architecture behaviour;

@@ -1,0 +1,274 @@
+/*
+WARNING: Do NOT edit the input and output ports in this file in a text
+editor if you plan to continue editing the block that represents it in
+the Block Editor! File corruption is VERY likely to occur.
+*/
+/*
+Copyright (C) 1991-2013 Altera Corporation
+Your use of Altera Corporation's design tools, logic functions 
+and other software and tools, and its AMPP partner logic 
+functions, and any output files from any of the foregoing 
+(including device programming or simulation files), and any 
+associated documentation or information are expressly subject 
+to the terms and conditions of the Altera Program License 
+Subscription Agreement, Altera MegaCore Function License 
+Agreement, or other applicable license agreement, including, 
+without limitation, that your use is for the sole purpose of 
+programming logic devices manufactured by Altera and sold by 
+Altera or its authorized distributors.  Please refer to the 
+applicable agreement for further details.
+*/
+(header "symbol" (version "1.1"))
+(symbol
+	(rect 16 16 272 576)
+	(text "colour_selector" (rect 5 0 65 12)(font "Arial" ))
+	(text "inst" (rect 8 544 20 556)(font "Arial" ))
+	(port
+		(pt 0 32)
+		(input)
+		(text "ball_on" (rect 0 0 27 12)(font "Arial" ))
+		(text "ball_on" (rect 21 27 48 39)(font "Arial" ))
+		(line (pt 0 32)(pt 16 32)(line_width 1))
+	)
+	(port
+		(pt 0 48)
+		(input)
+		(text "char_input[11..0]" (rect 0 0 63 12)(font "Arial" ))
+		(text "char_input[11..0]" (rect 21 43 84 55)(font "Arial" ))
+		(line (pt 0 48)(pt 16 48)(line_width 3))
+	)
+	(port
+		(pt 0 64)
+		(input)
+		(text "heart_input[11..0]" (rect 0 0 66 12)(font "Arial" ))
+		(text "heart_input[11..0]" (rect 21 59 87 71)(font "Arial" ))
+		(line (pt 0 64)(pt 16 64)(line_width 3))
+	)
+	(port
+		(pt 0 80)
+		(input)
+		(text "score_input[11..0]" (rect 0 0 68 12)(font "Arial" ))
+		(text "score_input[11..0]" (rect 21 75 89 87)(font "Arial" ))
+		(line (pt 0 80)(pt 16 80)(line_width 3))
+	)
+	(port
+		(pt 0 96)
+		(input)
+		(text "game_over_input[11..0]" (rect 0 0 93 12)(font "Arial" ))
+		(text "game_over_input[11..0]" (rect 21 91 114 103)(font "Arial" ))
+		(line (pt 0 96)(pt 16 96)(line_width 3))
+	)
+	(port
+		(pt 0 112)
+		(input)
+		(text "start_screen_input[11..0]" (rect 0 0 96 12)(font "Arial" ))
+		(text "start_screen_input[11..0]" (rect 21 107 117 119)(font "Arial" ))
+		(line (pt 0 112)(pt 16 112)(line_width 3))
+	)
+	(port
+		(pt 0 128)
+		(input)
+		(text "pause_input[11..0]" (rect 0 0 69 12)(font "Arial" ))
+		(text "pause_input[11..0]" (rect 21 123 90 135)(font "Arial" ))
+		(line (pt 0 128)(pt 16 128)(line_width 3))
+	)
+	(port
+		(pt 0 144)
+		(input)
+		(text "ball_input[11..0]" (rect 0 0 57 12)(font "Arial" ))
+		(text "ball_input[11..0]" (rect 21 139 78 151)(font "Arial" ))
+		(line (pt 0 144)(pt 16 144)(line_width 3))
+	)
+	(port
+		(pt 0 160)
+		(input)
+		(text "pipe_input[2..0]" (rect 0 0 59 12)(font "Arial" ))
+		(text "pipe_input[2..0]" (rect 21 155 80 167)(font "Arial" ))
+		(line (pt 0 160)(pt 16 160)(line_width 3))
+	)
+	(port
+		(pt 0 176)
+		(input)
+		(text "energy_input[2..0]" (rect 0 0 71 12)(font "Arial" ))
+		(text "energy_input[2..0]" (rect 21 171 92 183)(font "Arial" ))
+		(line (pt 0 176)(pt 16 176)(line_width 3))
+	)
+	(port
+		(pt 0 192)
+		(input)
+		(text "ground_input[2..0]" (rect 0 0 70 12)(font "Arial" ))
+		(text "ground_input[2..0]" (rect 21 187 91 199)(font "Arial" ))
+		(line (pt 0 192)(pt 16 192)(line_width 3))
+	)
+	(port
+		(pt 0 208)
+		(input)
+		(text "background_input[2..0]" (rect 0 0 89 12)(font "Arial" ))
+		(text "background_input[2..0]" (rect 21 203 110 215)(font "Arial" ))
+		(line (pt 0 208)(pt 16 208)(line_width 3))
+	)
+	(port
+		(pt 0 224)
+		(input)
+		(text "pipe2_input[2..0]" (rect 0 0 63 12)(font "Arial" ))
+		(text "pipe2_input[2..0]" (rect 21 219 84 231)(font "Arial" ))
+		(line (pt 0 224)(pt 16 224)(line_width 3))
+	)
+	(port
+		(pt 0 240)
+		(input)
+		(text "gift_input[2..0]" (rect 0 0 55 12)(font "Arial" ))
+		(text "gift_input[2..0]" (rect 21 235 76 247)(font "Arial" ))
+		(line (pt 0 240)(pt 16 240)(line_width 3))
+	)
+	(port
+		(pt 0 256)
+		(input)
+		(text "ball_red_input" (rect 0 0 54 12)(font "Arial" ))
+		(text "ball_red_input" (rect 21 251 75 263)(font "Arial" ))
+		(line (pt 0 256)(pt 16 256)(line_width 1))
+	)
+	(port
+		(pt 0 272)
+		(input)
+		(text "ball_green_input" (rect 0 0 63 12)(font "Arial" ))
+		(text "ball_green_input" (rect 21 267 84 279)(font "Arial" ))
+		(line (pt 0 272)(pt 16 272)(line_width 1))
+	)
+	(port
+		(pt 0 288)
+		(input)
+		(text "ball_blue_input" (rect 0 0 56 12)(font "Arial" ))
+		(text "ball_blue_input" (rect 21 283 77 295)(font "Arial" ))
+		(line (pt 0 288)(pt 16 288)(line_width 1))
+	)
+	(port
+		(pt 0 304)
+		(input)
+		(text "text_enable" (rect 0 0 44 12)(font "Arial" ))
+		(text "text_enable" (rect 21 299 65 311)(font "Arial" ))
+		(line (pt 0 304)(pt 16 304)(line_width 1))
+	)
+	(port
+		(pt 0 320)
+		(input)
+		(text "heart_enable" (rect 0 0 50 12)(font "Arial" ))
+		(text "heart_enable" (rect 21 315 71 327)(font "Arial" ))
+		(line (pt 0 320)(pt 16 320)(line_width 1))
+	)
+	(port
+		(pt 0 336)
+		(input)
+		(text "score_enable" (rect 0 0 53 12)(font "Arial" ))
+		(text "score_enable" (rect 21 331 74 343)(font "Arial" ))
+		(line (pt 0 336)(pt 16 336)(line_width 1))
+	)
+	(port
+		(pt 0 352)
+		(input)
+		(text "pipe_enable" (rect 0 0 46 12)(font "Arial" ))
+		(text "pipe_enable" (rect 21 347 67 359)(font "Arial" ))
+		(line (pt 0 352)(pt 16 352)(line_width 1))
+	)
+	(port
+		(pt 0 368)
+		(input)
+		(text "energy_enable" (rect 0 0 59 12)(font "Arial" ))
+		(text "energy_enable" (rect 21 363 80 375)(font "Arial" ))
+		(line (pt 0 368)(pt 16 368)(line_width 1))
+	)
+	(port
+		(pt 0 384)
+		(input)
+		(text "ground" (rect 0 0 27 12)(font "Arial" ))
+		(text "ground" (rect 21 379 48 391)(font "Arial" ))
+		(line (pt 0 384)(pt 16 384)(line_width 1))
+	)
+	(port
+		(pt 0 400)
+		(input)
+		(text "background" (rect 0 0 46 12)(font "Arial" ))
+		(text "background" (rect 21 395 67 407)(font "Arial" ))
+		(line (pt 0 400)(pt 16 400)(line_width 1))
+	)
+	(port
+		(pt 0 416)
+		(input)
+		(text "main_mode" (rect 0 0 47 12)(font "Arial" ))
+		(text "main_mode" (rect 21 411 68 423)(font "Arial" ))
+		(line (pt 0 416)(pt 16 416)(line_width 1))
+	)
+	(port
+		(pt 0 432)
+		(input)
+		(text "training_mode" (rect 0 0 55 12)(font "Arial" ))
+		(text "training_mode" (rect 21 427 76 439)(font "Arial" ))
+		(line (pt 0 432)(pt 16 432)(line_width 1))
+	)
+	(port
+		(pt 0 448)
+		(input)
+		(text "game_over" (rect 0 0 47 12)(font "Arial" ))
+		(text "game_over" (rect 21 443 68 455)(font "Arial" ))
+		(line (pt 0 448)(pt 16 448)(line_width 1))
+	)
+	(port
+		(pt 0 464)
+		(input)
+		(text "start_screen" (rect 0 0 50 12)(font "Arial" ))
+		(text "start_screen" (rect 21 459 71 471)(font "Arial" ))
+		(line (pt 0 464)(pt 16 464)(line_width 1))
+	)
+	(port
+		(pt 0 480)
+		(input)
+		(text "pause_enable" (rect 0 0 54 12)(font "Arial" ))
+		(text "pause_enable" (rect 21 475 75 487)(font "Arial" ))
+		(line (pt 0 480)(pt 16 480)(line_width 1))
+	)
+	(port
+		(pt 0 496)
+		(input)
+		(text "pipe2_enable" (rect 0 0 50 12)(font "Arial" ))
+		(text "pipe2_enable" (rect 21 491 71 503)(font "Arial" ))
+		(line (pt 0 496)(pt 16 496)(line_width 1))
+	)
+	(port
+		(pt 0 512)
+		(input)
+		(text "gift_enable" (rect 0 0 42 12)(font "Arial" ))
+		(text "gift_enable" (rect 21 507 63 519)(font "Arial" ))
+		(line (pt 0 512)(pt 16 512)(line_width 1))
+	)
+	(port
+		(pt 0 528)
+		(input)
+		(text "new_background_input[11..0]" (rect 0 0 113 12)(font "Arial" ))
+		(text "new_background_input[11..0]" (rect 21 523 134 535)(font "Arial" ))
+		(line (pt 0 528)(pt 16 528)(line_width 3))
+	)
+	(port
+		(pt 256 32)
+		(output)
+		(text "red[3..0]" (rect 0 0 33 12)(font "Arial" ))
+		(text "red[3..0]" (rect 202 27 235 39)(font "Arial" ))
+		(line (pt 256 32)(pt 240 32)(line_width 3))
+	)
+	(port
+		(pt 256 48)
+		(output)
+		(text "green[3..0]" (rect 0 0 42 12)(font "Arial" ))
+		(text "green[3..0]" (rect 193 43 235 55)(font "Arial" ))
+		(line (pt 256 48)(pt 240 48)(line_width 3))
+	)
+	(port
+		(pt 256 64)
+		(output)
+		(text "blue[3..0]" (rect 0 0 35 12)(font "Arial" ))
+		(text "blue[3..0]" (rect 200 59 235 71)(font "Arial" ))
+		(line (pt 256 64)(pt 240 64)(line_width 3))
+	)
+	(drawing
+		(rectangle (rect 16 16 240 544)(line_width 1))
+	)
+)

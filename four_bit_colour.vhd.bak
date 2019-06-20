@@ -1,0 +1,42 @@
+library IEEE;
+use  IEEE.STD_LOGIC_1164.all;
+use  IEEE.STD_LOGIC_ARITH.all;
+use  IEEE.STD_LOGIC_UNSIGNED.all;
+
+entity four_bit_colour is
+	port(
+		red, green, blue : in std_logic;
+		red_output, green_output, blue_output : out std_logic_vector (3 downto 0)
+	);
+end entity four_bit_colour;
+
+architecture behaviour of four_bit_colour is
+begin
+red:process(red)
+begin
+	if (red = '1') then
+		red_output <= "1111";
+	else 
+		red_output <= "0000";
+	end if;
+end process red;
+
+green:process(green)
+begin
+	if (green = '1') then
+		green_output <= "1111";
+	else
+		green_output <= "0000";
+	end if;
+end process green;
+
+blue: process(blue)
+begin	
+	if (blue = '1')then
+		blue_output <= "1111";
+	else	
+		blue_output <= "0000";
+	end if;
+end process blue;
+end architecture behaviour;
+		

@@ -1,0 +1,12 @@
+-- This file sets the ground in the game
+library IEEE;
+use  IEEE.STD_LOGIC_1164.all;
+use  IEEE.STD_LOGIC_ARITH.all;
+use  IEEE.STD_LOGIC_UNSIGNED.all;
+
+entity ground is 
+	port(
+		pixel_row, pixel_column : in std_logic_vector (10 downto 0);
+		red, green, blue			: OUT STD_LOGIC_VECTOR
+	);
+end entity heart_display;

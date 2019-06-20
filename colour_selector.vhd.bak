@@ -1,0 +1,23 @@
+library IEEE;
+use  IEEE.STD_LOGIC_1164.all;
+use  IEEE.STD_LOGIC_ARITH.all;
+use  IEEE.STD_LOGIC_UNSIGNED.all;
+
+entity colour_selector is 
+	port(
+		char_input : in std_logic;
+		enable     : in std_logic;
+		output     : out std_logic
+	);
+end entity colour_selector;
+
+architecture behaviour of colour_selector is 
+begin
+	process(char_input, enable)
+	begin
+		case enable is
+			when '0' => output <= '0';
+			when '1' => output ,+ char_input;
+		end case;
+	end process;
+end architecture;

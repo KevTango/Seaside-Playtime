@@ -1,0 +1,42 @@
+library IEEE;
+use  IEEE.STD_LOGIC_1164.all;
+use  IEEE.STD_LOGIC_ARITH.all;
+use  IEEE.STD_LOGIC_UNSIGNED.all;
+
+entity game_over is
+	port(
+		pixel_row, pixel_column : in std_logic_vector(10 downto 0);
+		Clk, Enable : in std_logic;
+		text_output : out std_logic
+	);
+end entity game_over;
+
+architecture behaviour of game_over is
+component Char_rom is
+	port(
+		character_address	:	IN STD_LOGIC_VECTOR (5 DOWNTO 0);
+		font_row, font_col	:	IN STD_LOGIC_VECTOR (2 DOWNTO 0);
+		clock				: 	IN STD_LOGIC ;
+		rom_mux_output		:	OUT STD_LOGIC
+	);
+end component;
+signal char_row, char_col : std_logic_vector(2 downto 0);
+signal char_add : std_logic_vector(5 downto 0);
+begin
+	character_rom: char_rom 
+		port map ( Clock => clk, font_row => char_row, font_col => char_col, character_address => char_add, rom_mux_output => text_output);
+
+process(Clk, pixel_row, pixel_column)
+begin
+	if (pixel_column >= 288 and pixel_column < 304 and pixel_row >= 224 and pixel_row < 256) then
+		char_add <= "000111";
+		char_row <= pixel_row(3 downto 1);
+		char_col <= pixel_col(3 downto 1);
+	elsif (pixel_column >= 304 and pixel_column < 320 and pixel_row >= 224 and pixel_row < 256) then
+		char_add <= "000001";
+		char_row <= pixel_row(3 downto 1);
+		char_col <= pixel_col(3 downto 1);
+	elsif (pixel_column >= 320 and pixel_column < 336 and pixel_row >= 224 and pixel_row < 256) then
+		char_add <= "000001";
+		char_row <= pixel_row(3 downto 1);
+		char_col <= pixel_col(3 downto 1);
