@@ -1,0 +1,29 @@
+library IEEE;
+USE IEEE.STD_LOGIC_1164.all;
+USE  IEEE.STD_LOGIC_ARITH.all;
+USE IEEE.STD_LOGIC_UNSIGNED.all;
+
+entity score_comparator is
+	port(
+		Clk : in std_logic;
+		score_input : in std_logic_vector(10 downto 0);
+		score_output : out std_logic
+	);
+end entity score_comparator;
+
+architecture behaviour of score_comparator is 
+begin
+process(Clk, score_input)
+variable t_score_input : std_logic_vector(10 downto 0) := "00000000000";
+begin
+	if (clk'event and clk = '1') then
+		t_score_input := score_input;
+		if (score_input = "00000000000" and t_score_input > "00000000000") then
+			score_output <= '1';
+		else
+			score_output <= '0';
+		end if
+	end if;
+end process;
+end architecture;
+	

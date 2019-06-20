@@ -1,0 +1,226 @@
+-- This code randomly generates the pipes
+LIBRARY IEEE;
+USE IEEE.STD_LOGIC_1164.all;
+USE IEEE.STD_LOGIC_ARITH.all;
+USE IEEE.STD_LOGIC_SIGNED.all;
+use ieee.numeric_std.all;
+
+
+ENTITY pipes2 IS
+Generic(ADDR_WIDTH: integer := 12; DATA_WIDTH: integer := 1);
+
+   PORT(SIGNAL Clock, left_click, Vert_sync					: IN std_logic;
+		  SIGNAL lfsr													: IN std_logic_vector(3 downto 0);
+		  SIGNAL pixel_row, pixel_column							: IN std_logic_vector(10 DOWNTO 0);
+		  SIGNAL no_health											: IN std_logic;
+		  signal game_reset											: in std_logic;
+		  SIGNAL increased_pipe_x_motion							: IN std_logic_vector(10 DOWNTO 0);
+        SIGNAL pipe_output											: OUT std_logic_vector(2 downto 0);
+		  SIGNAL Pipe_LED												: OUT std_logic_VECTOR(9 downto 0);
+		  signal pipe_x_pos_output									: OUT std_logic_vector(10 downto 0);
+		  signal lfsr_register_output								: OUT std_logic_vector(3 downto 0);
+		  signal score													: OUT std_logic;
+        SIGNAL pipe_enable											: OUT std_logic;
+		  SIGNAL level_count											: OUT std_logic);		
+END pipes2;
+
+architecture behavior of pipes2 is
+
+-- Mouse Click
+SIGNAL mouse_flag														: std_logic := '0';
+-- Pipe
+signal pipe_size, pipe_y_size, pipe_y_motion, pipe_x_pos, pipe_y_pos : std_logic_vector(10 downto 0);
+signal pipe_x_motion : std_logic_vector(10 downto 0) := -CONV_STD_LOGIC_VECTOR(3,11);
+SIGNAL pipe_colour : std_logic;
+-- LFSR Register
+signal lfsr_reg	: std_logic_vector(3 downto 0);
+-- Level Flag
+signal level_flag : std_logic_vector(2 downto 0) := "000";
+-- Pipe Increment
+signal pipe_increment : std_logic;
+signal score_flag : std_logic;
+
+BEGIN           
+
+-- Pipe
+pipe_size <= CONV_STD_LOGIC_VECTOR(24,11);
+pipe_y_pos <= CONV_STD_LOGIC_VECTOR(50,11);
+	
+-- Output Colours
+pipe_output(2) <= '0';
+pipe_output(1) <=	pipe_colour;
+pipe_output(0) <= '0';
+	
+Pipe_RGB_Display: Process (pipe_x_pos, pipe_y_pos, pixel_column, pixel_row, pipe_size, lfsr_reg, mouse_flag)
+BEGIN
+	
+	-- Set Ball_on ='1' to display ball
+	IF (mouse_flag = '1') AND
+		(pipe_x_pos <= pixel_column + pipe_size) AND
+ 		-- compare positive numbers only
+		(pipe_x_pos + pipe_size >= pixel_column) AND
+		(pipe_y_pos <= pixel_row) AND
+		(pipe_y_pos + 350 >= pixel_row) THEN
+		pipe_colour <= '1';
+		pipe_enable <= '1';
+		CASE lfsr_reg IS
+			WHEN "0000" =>
+				IF(pixel_row >= 100 AND pixel_row <= 160) THEN
+					pipe_colour <= '0';
+					pipe_enable <= '0';
+				END IF;
+			WHEN "0001" =>
+				IF(pixel_row >= 125 AND pixel_row <= 185) THEN
+					pipe_colour <= '0';
+					pipe_enable <= '0';
+				END IF;
+			WHEN "0010" =>
+				IF(pixel_row >= 150 AND pixel_row <= 210) THEN
+					pipe_colour <= '0';
+					pipe_enable <= '0';
+				END IF;
+			WHEN "0011" =>
+				IF(pixel_row >= 175 AND pixel_row <= 235) THEN
+					pipe_colour <= '0';
+					pipe_enable <= '0';
+				END IF;
+			WHEN "0100" =>
+				IF(pixel_row >= 200 AND pixel_row <= 260) THEN
+					pipe_colour <= '0';
+					pipe_enable <= '0';
+				END IF;
+			WHEN "0101" =>
+				IF(pixel_row >= 225 AND pixel_row <= 285) THEN
+					pipe_colour <= '0';
+					pipe_enable <= '0';
+				END IF;
+			WHEN "0110" =>
+				IF(pixel_row >= 250 AND pixel_row <= 310) THEN
+					pipe_colour <= '0';
+					pipe_enable <= '0';
+				END IF;
+			WHEN "0111" =>
+				IF(pixel_row >= 275 AND pixel_row <= 335) THEN
+					pipe_colour <= '0';
+					pipe_enable <= '0';
+				END IF;
+			WHEN "1000" =>
+				IF(pixel_row >= 300 AND pixel_row <= 360) THEN
+					pipe_colour <= '0';
+					pipe_enable <= '0';
+				END IF;
+			WHEN "1001" =>
+				IF(pixel_row >= 100 AND pixel_row <= 160) THEN
+					pipe_colour <= '0';
+					pipe_enable <= '0';
+				END IF;
+			WHEN "1010" =>
+				IF(pixel_row >= 200 AND pixel_row <= 260) THEN
+					pipe_colour <= '0';
+					pipe_enable <= '0';
+				END IF;
+			WHEN "1011" =>
+				IF(pixel_row >= 300 AND pixel_row <= 360) THEN
+					pipe_colour <= '0';
+					pipe_enable <= '0';
+				END IF;
+			WHEN "1100" =>
+				IF(pixel_row >= 125 AND pixel_row <= 185) THEN
+					pipe_colour <= '0';
+					pipe_enable <= '0';
+				END IF;
+			WHEN "1101" =>
+				IF(pixel_row >= 275 AND pixel_row <= 335) THEN
+					pipe_colour <= '0';
+					pipe_enable <= '0';
+				END IF;
+			WHEN "1110" =>
+				IF(pixel_row >= 150 AND pixel_row <= 210) THEN
+					pipe_colour <= '0';
+					pipe_enable <= '0';
+				END IF;
+			WHEN "1111" =>
+				IF(pixel_row >= 250 AND pixel_row <= 310) THEN
+					pipe_colour <= '0';
+					pipe_enable <= '0';
+				END IF;
+		END CASE;
+ 	ELSE
+		pipe_colour <= '0';
+		pipe_enable <= '0';
+	END IF;
+END process Pipe_RGB_Display;
+
+Move_Pipe: process (vert_sync, pipe_x_pos, increased_pipe_x_motion)
+BEGIN
+	-- Move pipe once every vertical sync
+		IF(vert_sync'event and vert_sync = '1') THEN
+			IF(game_reset = '1') THEN
+				mouse_flag <= '0';
+				pipe_x_pos <= CONV_STD_LOGIC_VECTOR(0,11);
+				pipe_x_motion <= -CONV_STD_LOGIC_VECTOR(3,11);
+			ELSIF((left_click = '1' OR mouse_flag = '1')) THEN
+				mouse_flag <= '1';
+				IF(no_health = '1' and game_reset = '0') THEN
+					pipe_x_motion <= CONV_STD_LOGIC_VECTOR(0,11);
+				else
+					pipe_x_motion <= pipe_x_motion;
+				END IF;
+				pipe_x_pos <= pipe_x_pos + pipe_x_motion + increased_pipe_x_motion;
+				pipe_x_pos_output <= pipe_x_pos;
+			END IF;
+		END IF;
+END process Move_Pipe;
+
+-- LFSR Generation each time a pipe loads
+LFSR_Register: Process (pipe_x_pos, lfsr, lfsr_reg)
+BEGIN
+	IF((pipe_x_pos > 640) AND (pipe_x_pos <= 650)) THEN
+		lfsr_reg <= lfsr;
+		lfsr_register_output <= lfsr_reg;
+	END IF;
+END process LFSR_Register;
+
+-- Increments score once the the pipe passes a certain section
+Score_Increment: Process (pipe_x_pos, score_flag)
+BEGIN
+	score <= '0';
+	level_count <= '0';
+	IF(pipe_x_pos > 640 AND pipe_x_pos < 650) THEN
+		score_flag <= '1';
+	ELSIF(pipe_x_pos > 280 AND pipe_x_pos < 290 AND score_flag = '1') THEN
+		score <= '1';
+		score_flag <= '0';
+		level_count <= '1';
+	END IF;
+END process Score_Increment;
+
+-- Shows the Pipe's position on the LED
+Pipe_Position: Process(pipe_x_pos)
+BEGIN
+	IF(pipe_x_pos >= 0 AND pipe_x_pos < 64) THEN
+		pipe_LED <= "1000000000";
+	ELSIF(pipe_x_pos >= 64 AND pipe_x_pos < 128) THEN
+		pipe_LED <= "0100000000";
+	ELSIF(pipe_x_pos >= 128 AND pipe_x_pos < 192) THEN
+		pipe_LED <= "0010000000";
+	ELSIF(pipe_x_pos >= 192 AND pipe_x_pos < 256) THEN
+		pipe_LED <= "0001000000";
+	ELSIF(pipe_x_pos >= 256 AND pipe_x_pos < 320) THEN
+		pipe_LED <= "0000100000";
+	ELSIF(pipe_x_pos >= 320 AND pipe_x_pos < 384) THEN
+		pipe_LED <= "0000010000";
+	ELSIF(pipe_x_pos >= 384 AND pipe_x_pos < 448) THEN
+		pipe_LED <= "0000001000";
+	ELSIF(pipe_x_pos >= 448 AND pipe_x_pos < 512) THEN
+		pipe_LED <= "0000000100";
+	ELSIF(pipe_x_pos >= 512 AND pipe_x_pos < 576) THEN
+		pipe_LED <= "0000000010";
+	ELSIF(pipe_x_pos >= 576 AND pipe_x_pos < 640) THEN
+		pipe_LED <= "0000000001";
+	ELSE
+		pipe_LED <= "0000000000";
+	END IF;
+END process Pipe_Position;
+
+END behavior;

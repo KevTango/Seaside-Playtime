@@ -1,0 +1,54 @@
+library IEEE;
+use  IEEE.STD_LOGIC_1164.all;
+use  IEEE.STD_LOGIC_ARITH.all;
+use  IEEE.STD_LOGIC_UNSIGNED.all;
+
+entity score_incrementer is
+	port(
+		increment, Clk : in std_logic;
+		pixel_row, pixel_column : in std_logic_vector(10 downto 0);
+		Output			: out std_logic_vector(5 downto 0);
+		score_enable   : out std_logic
+	);
+end entity score_incrementer;
+
+architecture behaviour of score_incrementer is
+component up_counter_score 
+	PORT(
+		Input :IN STD_LOGIC;
+		Reset : IN STD_LOGIC;
+		Ones : OUT STD_LOGIC_VECTOR(5 downto 0);
+		Tens : out std_logic_vector(5 downto 0);
+		Hundreds : out std_logic_vector(5 downto 0);
+		Thousands : out std_logic_vector(5 downto 0)
+	);
+end component;
+
+signal Ones_temp : std_logic_vector(5 downto 0);
+signal tens_temp : std_logic_vector(5 downto 0);
+signal hundreds_temp : std_logic_vector(5 downto 0);
+signal thousands_temp : std_logic_vector(5 downto 0);
+
+begin	
+	score_counter: up_counter_score
+		port map (input => increment, ones => ones_temp, tens => tens_temp, hundreds => hundreds_temp, thousands => thousands_temp, reset => '0');
+	process(Clk, increment, pixel_column, pixel_row)
+	begin
+		if (pixel_row >= 16 and pixel_row < 32 and pixel_column >= 0 and pixel_column < 16) then
+			Output <= thousands_temp;
+			score_enable <= '1';
+		elsif (pixel_row >= 16 and pixel_row < 32 and pixel_column >= 16 and pixel_column < 32) then
+			Output <= hundreds_temp;
+			score_enable <= '1';
+		elsif (pixel_row >= 16 and pixel_row < 32 and pixel_column >= 32 and pixel_column < 64) then
+			Output <= tens_temp;
+			score_enable <= '1';
+		elsif (pixel_row >= 16 and pixel_row < 32 and pixel_column >= 64 and pixel_column < 80) then
+			Output <= ones_temp;
+			score_enable <= '1';
+		else
+			Output <= "000000";
+			score_enable <= '0';
+		end if;
+	end process;
+end architecture behaviour;

@@ -1,0 +1,61 @@
+library IEEE;
+USE IEEE.STD_LOGIC_1164.all;
+USE  IEEE.STD_LOGIC_ARITH.all;
+USE IEEE.STD_LOGIC_UNSIGNED.all;
+
+ENTIty up_counter_score IS
+	PORT(
+		Input :IN STD_LOGIC;
+		Reset : IN STD_LOGIC;
+		Ones : OUT STD_LOGIC_VECTOR(5 downto 0);
+		Tens : out std_logic_vector(5 downto 0);
+		Hundreds : out std_logic_vector(5 downto 0);
+		Thousands : out std_logic_vector(5 downto 0)
+	);
+END ENTITY;
+
+ARCHITECTURE behaviour OF up_counter_score IS
+	SIGNAL temp_ones : std_logic_vector(5 downto 0);
+	SIGNAL temp_tens : std_logic_vector(5 downto 0);
+	SIGNAL temp_hundreds : std_logic_vector(5 downto 0);
+	signal temp_thousands : std_logic_vector(5 downto 0);
+BEGIN
+	PROCESS(Reset, Input, temp_ones, temp_tens, temp_hundreds)
+	BEGIN
+		IF(Reset = '1') THEN
+			temp_ones <= "110000";
+			temp_tens <= "110000";
+			temp_hundreds <= "110000";
+			temp_thousands <= "110000";
+		ELSIF(Input'event AND Input = '1') THEN
+			if (temp_ones > "111000") then
+				temp_ones <= "110000";
+			else 
+				temp_ones <= temp_ones + 1;
+			end if;
+			
+			if ((temp_tens > "111000") and (temp_ones > "111000" ))then
+				temp_tens <= "110000";
+			elsif((temp_tens <= "111000") and (temp_ones > "111000")) then
+				temp_tens <= temp_tens + 1;
+			end if;
+			
+			if ((temp_hundreds > "111000") and (temp_tens > "111000") and (temp_ones > "111000")) then
+				temp_hundreds <= "110000";
+			elsif((temp_hundreds <= "111000") and (temp_tens > "111000") and (temp_ones > "111000")) then
+				temp_hundreds <= temp_hundreds + 1;
+			end if;
+			
+			if ((temp_thousands > "111000") and (temp_hundreds > "111000") and (temp_tens > "111000") and (temp_ones > "111000")) then
+				temp_thousands <= "110000";
+			elsif ((temp_thousands > "111000") and (temp_hundreds > "111000") and (temp_tens > "111000") and (temp_ones > "111000")) then
+				temp_thousands <= temp_thousands + 1;
+			end if;
+			
+		END IF;
+		Ones <= std_logic_vector(temp_ones);
+		Tens <= std_logic_vector(temp_Tens);
+		Hundreds <= std_logic_vector(temp_Hundreds);
+		Thousands <= std_logic_vector(temp_thousands);
+	END PROCESS;
+END ARCHITECTURE;
